@@ -44,5 +44,6 @@
     },
     "requiredBackgroundModes": [
         "audio"
-    ]
+    ],
+    "lazyCodeLoading": "requiredComponents"
 }

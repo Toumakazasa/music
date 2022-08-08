@@ -46,9 +46,13 @@ Page({
     // },
     async getListDetail(navId){
         let videoDetails = await request('/video/group',{id:navId},'GET');
+        console.log(videoDetails);
         //关闭消息提示框
         wx.hideLoading();
         let videoInfoList = [];
+        if(!videoDetails){
+            return;
+        }
             videoDetails.datas.forEach(i =>{
                 videoInfoList.push({
                     id:i.data.vid,
@@ -59,8 +63,10 @@ Page({
                     coverUrl:i.data.coverUrl,
                     videoUrl:""//新建一个数组videoInfoList，将data数据都push进去
                 })
-
             })
+
+
+
         for (const i of videoInfoList) {
             let result =await request('/video/url',{id:i.id}).then(r =>{
                 i.videoUrl = r.urls[0].url

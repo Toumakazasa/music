@@ -24,9 +24,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-       phone:'',//手机号
+        email:'',//邮箱号
        password:''//用户密码
-
     },
 
     /**
@@ -50,7 +49,7 @@ Page({
     //登录的回调
     async login() {
         //1.收集表单数据
-        let {phone, password} = this.data;
+        let {email, password} = this.data;
         //2.前端验证
         /*
         * 手机号验证：
@@ -59,18 +58,18 @@ Page({
         *   3.手机号格式正确，验证通过
         * */
 
-        if (!phone) {
+        if (!email) {
             //提示用户
             wx.showToast({
-                title: '手机号不能为空',
+                title: '邮箱不能为空',
                 icon: 'none'
             })
         }
         //定义正则表达式
-        let phoneReg = /^1(3|4|5|6|7|8|9)\d{9}$/;
-        if (!phoneReg.test(phone)) {
+        let emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;//只允许英文字母、数字、下划线、英文句号、以及中划线组成
+        if (!emailReg.test(email)) {
             wx.showToast({
-                title: '手机号格式错误',
+                title: '邮箱格式错误',
                 icon: 'none'
             })
             return;
@@ -85,20 +84,23 @@ Page({
         }
 
         //后端验证
-        let result = await request('/login/cellphone', {phone, password,isLogin:true})
+        //let result = 'https://netease-cloud-music-api-one-tau-94.vercel.app/user/detail?uid=32953014'
+        let result = await  request('/login', {email,password,isLogin:true,});
         console.log(result)
+        //将用户的信息存储至本地
+        wx.setStorageSync('userInfo',JSON.stringify(result.profile))
+
+
+        //跳转至个人中心personal页面
+        wx.reLaunch({
+            url:'/pages/personal/personal'
+        })
         if(result.code ==  200){
             wx.showToast({   //登录成功
                 title:'登录成功'
             })
-            //将用户的信息存储至本地
-            wx.setStorageSync('userInfo',JSON.stringify(result.profile))
 
 
-            //跳转至个人中心personal页面
-            wx.reLaunch({
-                url:'/pages/personal/personal'
-            })
         }else if(result.code == 400){
               wx.showToast({
                   title:'手机号错误',

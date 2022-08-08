@@ -8,8 +8,8 @@
     </view>
     <view class="input-content">
       <view class="input-item">
-        <text class="tit">手机号码</text>
-        <input  type="text" placeholder="请输入手机号码" data-test="abc" data-type="phone" id="phone" value='{{message1}}'  bindinput='handleInput'/>
+        <text class="tit">邮箱账号</text>
+        <input  type="text" placeholder="请输入邮箱账号" data-test="abc" data-type="email" id="email" value='{{message1}}'  bindinput='handleInput'/>
       </view>
       <view class="input-item">
         <text class="tit">密码</text>

@@ -46,12 +46,14 @@ Page({
         *   2：idx的取值范围是0-20，我们需要0-4
         *   3：发送5次请求
         * */
+        let song = [991319590,5453912201,3778678,2884035,2809513713];
         let index = 0;
         let resultArr = [];
         while (index < 5 ){
-            let topListData = await request('/playlist/detail',{idx:index++});
+            let topListData = await request('/playlist/detail',{id:song[index++]});
+            console.log(topListData)
             //splice(会修改原数组，可以对指定的数组增删改查)，slice(不会修改原数组)
-            let topListItem = {name:topListData.playlist.name,tracks:topListData.playlist.tracks.slice(0,3)}//截取该数组下的前3项数据
+            let topListItem = {name:topListData.playlist.name,subscribers:topListData.playlist.subscribers.slice(0,3)}//截取该数组下的前3项数据
             resultArr.push(topListItem);
             //不需要等待5次请求全部结束才更新，用户体验较好，但是渲染次数会多一点
             this.setData({
